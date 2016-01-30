@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=UTF-8>
+	<title>Objective-C and JavaScript</title>
+	<style type="text/css">
+        * {
+            font-size: 20px;
+        }
+	div {
+		margin-top: 20px;
+	}
+	</style> 
+</head>
+<body>
+<div>
+<h1>Objective-C and JavaScript</h1>
+<div><input type='button' value='pay' onclick='callPay()'></div>
+<div><input type='button' value='share' onclick='callShare()'></div>
+<div><input type='button' value='alert' onclick='callNativeAlert("hello world")'></div>
+<div><input type='button' value='conslog' onclick='callNativeLog("the var is undefined")'></div>
+<div><input type='button' value='protocol intercept' onclick='createIframe()'></div>
+</div>
+<script type="text/javascript">
+var callShare = function() {
+	var shareInfo = JSON.stringify({"platform":["微信好友","微信朋友圈","新浪"],"title":"标题","desc":"描述","shareurl":"http://www.baidu.com"})
+    native.share(shareInfo)
+}
+var callPay = function(){
+    var payInfo = JSON.stringify({"platform":["wechat","alipay","qq"],"goodsInfo":{"name":"iphone 6s","payamount":5310}})
+    native.onlinePay(payInfo)
+}
+var payCallback = function(ret) {
+	alert("支付" + ret)
+}
+var shareCallback = function(ret){
+	alert("分享" + ret)
+} 
+function createIframe(){
+	var iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    //根据客户端和js协商的协议格式来写
+    iframe.src = 'bridge' + '://' + 'host'
+    document.documentElement.appendChild(iframe)
+}
+function fact(n) {
+	if (n <= 2) return n
+	return n * fact(n-1)
+} 
+</script>
+</body>
+</html>
